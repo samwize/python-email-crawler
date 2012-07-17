@@ -6,8 +6,8 @@ This python script search/google certain keywords, crawls the webpages from the 
 Requirements
 ------------
 
-	- sqlalchemy
-	- urllib2
+- sqlalchemy
+- urllib2
 
 Usage
 -------
