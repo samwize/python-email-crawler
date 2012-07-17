@@ -1,5 +1,11 @@
 *.py[co]
 
+# Project specifics
+email_crawler.sublime-project
+email_crawler.sublime-workspace
+/data
+/logs
+
 # Packages
 *.egg
 *.egg-info
