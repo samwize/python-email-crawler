@@ -24,6 +24,7 @@ url_regex = re.compile('<a\s.*?href=[\'"](.*?)[\'"].*?>')
 MAX_SEARCH_RESULTS = 500
 
 EMAILS_FILENAME = 'data/emails.csv'
+DOMAINS_FILENAME = 'data/domains.csv'
 
 # Set up the database
 db = CrawlerDb()
@@ -194,6 +195,17 @@ if __name__ == "__main__":
 			file.writelines("\n".join(emails))
 			file.close()
 			logger.info("All emails saved to ./data/emails.csv")
+			logger.info("="*40)
+		elif (arg == '--domains') or (arg == '-d'):
+			# Get all the domains and save in a CSV
+			logger.info("="*40)
+			logger.info("Processing...")
+			domains = db.get_all_domains()
+			logger.info("There are %d domains" % len(domains))
+			file = open(DOMAINS_FILENAME, "w+")
+			file.writelines("\n".join(domains))
+			file.close()
+			logger.info("All domains saved to ./data/domains.csv")
 			logger.info("="*40)
 		else:
 			# Crawl the supplied keywords!

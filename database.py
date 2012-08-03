@@ -1,4 +1,5 @@
 from sqlalchemy import create_engine, Table, Column, Integer, String, Boolean, MetaData, select
+import urlparse
 
 DATABASE_NAME = 'data/crawler.sqlite'
 HTML_DIR = 'data/html/'
@@ -93,6 +94,27 @@ class CrawlerDb:
 				email_set.add(email)
 
 		return email_set
+
+	def get_all_domains(self):
+		if not self.connected:
+			return None
+
+		s = select([self.website_table])
+		res = self.connection.execute(s)
+		results = res.fetchall()
+		res.close()
+		domain_set = set()
+		for result in results:
+			if (result.url == None):
+				continue
+			url = urlparse.urlparse(result.url)
+			hostname = url.hostname.split(".")
+			# Simplistic assumeption of a domain. If 2nd last name is <4 char, then it has 3 parts eg. just2us.com.sg
+			hostname = ".".join(len(hostname[-2]) < 4 and hostname[-3:] or hostname[-2:])
+			domain_set.add(hostname)
+
+		return domain_set
+
 
 	def close(self):
 		self.connection.close()
