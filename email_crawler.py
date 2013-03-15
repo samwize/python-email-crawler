@@ -6,7 +6,7 @@ import traceback
 from database import CrawlerDb
 
 # Debugging
-import pdb;pdb.set_trace()
+# import pdb;pdb.set_trace()
 
 # Logging
 logging.config.dictConfig(LOGGING)
