@@ -9,6 +9,9 @@ Requirements
 - sqlalchemy
 - urllib2
 
+If you don't have, simply `sudo pip install sqlalchemy`. 
+
+
 Usage
 -------
 

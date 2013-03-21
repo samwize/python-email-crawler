@@ -3,8 +3,6 @@
 # Project specifics
 email_crawler.sublime-project
 email_crawler.sublime-workspace
-/data
-/logs
 
 # Packages
 *.egg
@@ -33,3 +31,6 @@ pip-log.txt
 .mr.developer.cfg
 
 docs/_build/
+crawler.sqlite
+pycrawler.log
+emails.csv
