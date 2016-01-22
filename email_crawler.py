@@ -1,7 +1,7 @@
 from settings import LOGGING
 import logging, logging.config
 import urllib, urllib2
-import re, urlparse
+import re, urlparse, glob
 import traceback
 from database import CrawlerDb
 
@@ -33,10 +33,10 @@ db.connect()
 
 def crawl(keywords):
 	"""
-	This method will 
+	This method will
 
 	1) Google the keywords, and extract MAX_SEARCH_RESULTS
-	2) For every result (aka website), crawl the website 2 levels deep. 
+	2) For every result (aka website), crawl the website 2 levels deep.
 		That is the homepage (level 1) and all it's links (level 2).
 		But if level 1 has the email, then skip going to level 2.
 	3) Store the html in /data/html/ and update the database of the crawled emails
@@ -52,7 +52,7 @@ def crawl(keywords):
 	logger.info("-"*40)
 	logger.info("Keywords to Google for: %s" % keywords)
 	logger.info("-"*40)
-	
+
 	# Step 1: Crawl Google Page
 	# eg http://www.google.com/search?q=singapore+web+development&start=0
 	# Next page: https://www.google.com/search?q=singapore+web+development&start=10
@@ -66,7 +66,7 @@ def crawl(keywords):
 			db.enqueue(url)
 		for url in google_adurl_regex.findall(data):
 			db.enqueue(url)
-		
+
 	# Step 2: Crawl each of the search result
 	# We search till level 2 deep
 	while (True):
@@ -76,7 +76,7 @@ def crawl(keywords):
 			break
 		email_set = find_emails_2_level_deep(uncrawled.url)
 		if (len(email_set) > 0):
-			db.crawled(uncrawled, ",".join(list(email_set)))			
+			db.crawled(uncrawled, ",".join(list(email_set)))
 		else:
 			db.crawled(uncrawled, None)
 
@@ -98,7 +98,7 @@ def retrieve_html(url):
 	except urllib2.HTTPError, e:
 		status = e.code
 	except Exception, e:
-		return 
+		return
 	if status == 0:
 		status = 200
 
@@ -118,7 +118,7 @@ def find_emails_2_level_deep(url):
 	"""
 	html = retrieve_html(url)
 	email_set = find_emails_in_html(html)
-		
+
 	if (len(email_set) > 0):
 		# If there is a email, we stop at level 1.
 		return email_set
@@ -175,11 +175,11 @@ def find_links_in_html_with_same_hostname(url, html):
 				link_set.add(urlparse.urljoin(url.geturl(),link))
 		except Exception, e:
 			pass
-		
+
 	return link_set
 
 
-	
+
 
 if __name__ == "__main__":
 	import sys
@@ -208,6 +208,7 @@ if __name__ == "__main__":
 			logger.info("All domains saved to ./data/domains.csv")
 			logger.info("="*40)
 		else:
+			arg = glob.glob(arg)
 			# Crawl the supplied keywords!
 			crawl(arg)
 
@@ -217,4 +218,3 @@ if __name__ == "__main__":
 	except Exception, e:
 		logger.error("EXCEPTION: %s " % e)
 		traceback.print_exc()
-	
