@@ -1,7 +1,7 @@
 from settings import LOGGING
 import logging, logging.config
 import urllib, urllib2
-import re, urlparse, glob
+import re, urlparse
 import traceback
 from database import CrawlerDb
 
@@ -208,7 +208,6 @@ if __name__ == "__main__":
 			logger.info("All domains saved to ./data/domains.csv")
 			logger.info("="*40)
 		else:
-			arg = glob.glob(arg)
 			# Crawl the supplied keywords!
 			crawl(arg)
 
