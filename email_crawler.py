@@ -21,7 +21,7 @@ url_regex = re.compile('<a\s.*?href=[\'"](.*?)[\'"].*?>')
 # url_regex = re.compile('<a\s(?:.*?\s)*?href=[\'"](.*?)[\'"].*?>')
 
 # Maximum number of search results to start the crawl
-MAX_SEARCH_RESULTS = 500
+MAX_SEARCH_RESULTS = 150
 
 EMAILS_FILENAME = 'data/emails.csv'
 DOMAINS_FILENAME = 'data/domains.csv'
