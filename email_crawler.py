@@ -50,7 +50,7 @@ def crawl(keywords):
 			Store the HTML
 	"""
 	logger.info("-"*40)
-	logger.info("Keywords to Google for: %s" % keywords)
+	logger.info("Keywords to Google for: %s" % keywords.decode('utf-8'))
 	logger.info("-"*40)
 
 	# Step 1: Crawl Google Page
@@ -63,9 +63,9 @@ def crawl(keywords):
 		data = retrieve_html(url)
 		# 	print("data: \n%s" % data)
 		for url in google_url_regex.findall(data):
-			db.enqueue(url)
+			db.enqueue(unicode(url))
 		for url in google_adurl_regex.findall(data):
-			db.enqueue(url)
+			db.enqueue(unicode(url))
 
 	# Step 2: Crawl each of the search result
 	# We search till level 2 deep

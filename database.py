@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Table, Column, Integer, String, Boolean, MetaData, select
+from sqlalchemy import create_engine, Table, Column, Integer, Unicode, Boolean, MetaData, select
 import urlparse
 
 DATABASE_NAME = 'data/crawler.sqlite'
@@ -19,9 +19,9 @@ class CrawlerDb:
 		# Define the tables
 		self.website_table = Table('website', self.metadata,
 			Column('id', Integer, primary_key=True),
-			Column('url', String, nullable=False),
+			Column('url', Unicode, nullable=False),
 			Column('has_crawled', Boolean, default=False),
-			Column('emails', String, nullable=True),
+			Column('emails', Unicode, nullable=True),
 		)
 
 		# Create the tables
